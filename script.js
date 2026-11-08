@@ -86,6 +86,7 @@
     current = next;
 
     if (next === 5) startPetals();
+    if (next === 6) startTypewriter();
   }
 
   document.body.addEventListener('click', (e) => {
@@ -430,6 +431,40 @@
     };
     document.addEventListener('pointerdown', gesture, { once: true });
     document.addEventListener('keydown', gesture, { once: true });
+  }
+  /* ================= SCENE 6 — TYPEWRITER LETTER ================= */
+  let typingStarted = false;
+
+  function startTypewriter() {
+    if (typingStarted) return;
+    typingStarted = true;
+
+    const target = document.getElementById('typewriterText');
+    const sign = document.querySelector('.letter-sign');
+    if (!target) return;
+
+    const message = 
+`Log kehte hain Diwali roshni ka tyohar hai, par mere liye asli roshni aapki ek muskurahat hai. ✨
+
+Aur sach kahun toh... Aaj aap jab ready honge toh Diwali ki saari lights aapke samne feeki pad jayengi. 🪔❤️
+
+Bas yahi dua hai ki aapki zindagi mein hamesha aisi hi chamak bani rahe, aur har khushi bina maange aapke kadam chume. Happy Diwali once again, Devi Ji! 🥰`;
+
+    let i = 0;
+    const speed = 45; // Typing speed (kam number = fast typing)
+
+    function typeChar() {
+      if (i < message.length) {
+        target.textContent += message.charAt(i);
+        i++;
+        setTimeout(typeChar, speed);
+      } else {
+        // Typing khatam hone ke baad signature dikhao
+        if (sign) sign.classList.add('show');
+      }
+    }
+
+    setTimeout(typeChar, 600); // Scene transition ke 0.6s baad typing shuru hogi
   }
 
   /* ================= INIT ================= */
