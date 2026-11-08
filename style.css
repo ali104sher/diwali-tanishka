@@ -17,18 +17,30 @@
 
 html, body {
   height: 100%;
-  overflow: hidden;
+  height: 100dvh;
+  overflow-x: hidden;
+  overflow-y: auto; /* Mobile par squeeze hone ki jagah scrollable rahega agar zaroorat padi toh */
   background: var(--ink-deep);
   color: var(--ivory);
   font-family: var(--serif);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
+
 body {
   background:
     radial-gradient(ellipse at 50% 100%, #1a2350 0%, transparent 55%),
     radial-gradient(ellipse at 50% 0%, #131a3d 0%, transparent 60%),
     var(--ink-deep);
+}
+
+/* Scene system */
+#stage { 
+  position: relative; 
+  min-height: 100vh; 
+  min-height: 100dvh; 
+  overflow: hidden; 
+  z-index: 1; 
 }
 
 /* Ambient */
@@ -624,5 +636,32 @@ body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.2s !important;
+  }
+}
+@media (max-width: 640px) {
+  .scene {
+    padding: 16px 12px;
+    justify-content: flex-start;
+    overflow-y: auto;
+  }
+  .arch-wrap { 
+    height: 65vh; 
+    margin-top: 20px;
+  }
+  .scene2-content { 
+    margin-bottom: 10vh; 
+    margin-top: 10px;
+  }
+  .central-diya { 
+    bottom: 8vh; 
+    width: 120px; 
+  }
+  .music-toggle { 
+    top: 10px; 
+    right: 10px; 
+    padding: 6px 10px; 
+  }
+  .lantern-field, .cracker-field { 
+    height: 45vh; 
   }
 }
