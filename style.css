@@ -19,7 +19,7 @@ html, body {
   height: 100%;
   height: 100dvh;
   overflow-x: hidden;
-  overflow-y: auto; /* Mobile par squeeze hone ki jagah scrollable rahega agar zaroorat padi toh */
+  overflow-y: auto;
   background: var(--ink-deep);
   color: var(--ivory);
   font-family: var(--serif);
@@ -32,15 +32,6 @@ body {
     radial-gradient(ellipse at 50% 100%, #1a2350 0%, transparent 55%),
     radial-gradient(ellipse at 50% 0%, #131a3d 0%, transparent 60%),
     var(--ink-deep);
-}
-
-/* Scene system */
-#stage { 
-  position: relative; 
-  min-height: 100vh; 
-  min-height: 100dvh; 
-  overflow: hidden; 
-  z-index: 1; 
 }
 
 /* Ambient */
@@ -73,7 +64,7 @@ body {
 }
 
 /* Scene system */
-#stage { position: relative; height: 100vh; height: 100dvh; overflow: hidden; z-index: 1; }
+#stage { position: relative; min-height: 100vh; min-height: 100dvh; overflow: hidden; z-index: 1; }
 .scene {
   position: absolute; inset: 0;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -280,7 +271,6 @@ body {
   0%, 100% { transform: translateY(0); }
   50%      { transform: translateY(-3px); }
 }
-/* unlit state for scene 2 lighting */
 .scene-2 .diya-mini .flame,
 .scene-2 .diya-mini .flame-glow { opacity: 0; transition: opacity 0.5s; }
 .scene-2 .diya-mini.lit .flame,
@@ -585,6 +575,66 @@ body {
   100% { transform: translateY(105vh) translateX(60px) rotate(720deg); opacity: 0; }
 }
 
+/* ================== SCENE 6 — CUSTOM LETTER ================== */
+.scene-6 {
+  background:
+    radial-gradient(ellipse at 50% 100%, #2a1030 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 30%, #0a1230 0%, transparent 70%);
+}
+.letter-card {
+  position: relative;
+  z-index: 4;
+  max-width: 580px;
+  width: 92%;
+  padding: 36px 28px;
+  border: 1px solid rgba(245, 214, 138, 0.45);
+  background: linear-gradient(160deg, rgba(20, 27, 61, 0.88), rgba(10, 15, 36, 0.95));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 4px;
+  box-shadow: 0 0 50px rgba(245, 214, 138, 0.18), inset 0 0 20px rgba(245, 214, 138, 0.06);
+  text-align: center;
+}
+.letter-title {
+  font-family: var(--script);
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  color: var(--gold-glow);
+  text-shadow: 0 0 30px rgba(255, 216, 138, 0.4);
+  margin-bottom: 20px;
+  line-height: 1.1;
+}
+.letter-body {
+  font-family: var(--serif);
+  font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  line-height: 1.8;
+  color: var(--ivory);
+  text-align: left;
+  min-height: 180px;
+  white-space: pre-line;
+}
+#typewriterText { display: inline; }
+.cursor {
+  display: inline-block;
+  color: var(--gold-glow);
+  font-weight: bold;
+  animation: blinkCursor 0.8s infinite;
+}
+@keyframes blinkCursor {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+.letter-sign {
+  margin-top: 24px;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--brass-lt);
+  text-align: right;
+  opacity: 0;
+  transition: opacity 1s var(--ease);
+}
+.letter-sign.show { opacity: 1; }
+
 /* Music toggle */
 .music-toggle {
   position: fixed; top: 20px; right: 20px;
@@ -618,13 +668,20 @@ body {
 
 /* Responsive */
 @media (max-width: 640px) {
-  .arch-wrap { height: 75vh; }
-  .scene2-content { margin-bottom: 20vh; }
-  .central-diya { bottom: 12vh; width: 140px; }
-  .music-toggle { top: 12px; right: 12px; padding: 8px 12px; }
-  .lantern-field { height: 52vh; }
-  .cracker-field { height: 48vh; }
+  .scene {
+    padding: 16px 12px;
+    justify-content: flex-start;
+    overflow-y: auto;
+  }
+  .arch-wrap { height: 65vh; margin-top: 20px; }
+  .scene2-content { margin-bottom: 10vh; margin-top: 10px; }
+  .central-diya { bottom: 8vh; width: 120px; }
+  .music-toggle { top: 10px; right: 10px; padding: 6px 10px; }
+  .lantern-field, .cracker-field { height: 45vh; }
+  .letter-card { padding: 24px 18px; margin-top: 40px; }
+  .letter-body { font-size: 1rem; min-height: 210px; }
 }
+
 @media (max-height: 640px) {
   .arch-wrap { height: 90vh; }
   .entrance-content { transform: scale(0.9); }
@@ -636,114 +693,5 @@ body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.2s !important;
-  }
-}
-@media (max-width: 640px) {
-  .scene {
-    padding: 16px 12px;
-    justify-content: flex-start;
-    overflow-y: auto;
-  }
-  .arch-wrap { 
-    height: 65vh; 
-    margin-top: 20px;
-  }
-  .scene2-content { 
-    margin-bottom: 10vh; 
-    margin-top: 10px;
-  }
-  .central-diya { 
-    bottom: 8vh; 
-    width: 120px; 
-  }
-  .music-toggle { 
-    top: 10px; 
-    right: 10px; 
-    padding: 6px 10px; 
-  }
-  .lantern-field, .cracker-field { 
-    height: 45vh; 
-  }
-}
-/* ================== SCENE 6 — CUSTOM LETTER ================== */
-.scene-6 {
-  background:
-    radial-gradient(ellipse at 50% 100%, #2a1030 0%, transparent 60%),
-    radial-gradient(ellipse at 50% 30%, #0a1230 0%, transparent 70%);
-}
-
-.letter-card {
-  position: relative;
-  z-index: 4;
-  max-width: 580px;
-  width: 92%;
-  padding: 36px 28px;
-  border: 1px solid rgba(245, 214, 138, 0.4);
-  background: linear-gradient(160deg, rgba(20, 27, 61, 0.85), rgba(10, 15, 36, 0.92));
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: 4px;
-  box-shadow: 0 0 50px rgba(245, 214, 138, 0.15), inset 0 0 20px rgba(245, 214, 138, 0.05);
-  text-align: center;
-}
-
-.letter-title {
-  font-family: var(--script);
-  font-size: clamp(2.4rem, 5vw, 3.6rem);
-  color: var(--gold-glow);
-  text-shadow: 0 0 30px rgba(255, 216, 138, 0.4);
-  margin-bottom: 20px;
-  line-height: 1.1;
-}
-
-.letter-body {
-  font-family: var(--serif);
-  font-size: clamp(1.05rem, 1.6vw, 1.25rem);
-  line-height: 1.8;
-  color: var(--ivory);
-  text-align: left;
-  min-height: 180px;
-  white-space: pre-line;
-}
-
-#typewriterText {
-  display: inline;
-}
-
-.cursor {
-  display: inline-block;
-  color: var(--gold-glow);
-  font-weight: bold;
-  animation: blinkCursor 0.8s infinite;
-}
-
-@keyframes blinkCursor {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-.letter-sign {
-  margin-top: 24px;
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: 1.15rem;
-  color: var(--brass-lt);
-  text-align: right;
-  opacity: 0;
-  transition: opacity 1s var(--ease);
-}
-
-.letter-sign.show {
-  opacity: 1;
-}
-
-@media (max-width: 640px) {
-  .letter-card {
-    padding: 24px 18px;
-    margin-top: 20px;
-  }
-  .letter-body {
-    font-size: 1rem;
-    min-height: 210px;
   }
 }
