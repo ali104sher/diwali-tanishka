@@ -68,7 +68,6 @@
   }
 
   /* ================= SCENE MANAGER ================= */
-  const scenes = document.querySelectorAll('.scene');
   let current = 1;
 
   function goTo(next) {
@@ -93,6 +92,7 @@
     const btn = e.target.closest('[data-next]');
     if (btn) {
       const n = parseInt(btn.dataset.next, 10);
+      if (n === 2 && !musicStarted) startMusic();
       if (!isNaN(n)) goTo(n);
     }
   });
@@ -109,22 +109,18 @@
     if (diyasLit) return;
     diyasLit = true;
 
-    // Light central diya
     const central = document.getElementById('centralDiya');
     if (central) central.classList.add('lit');
 
-    // Ripple through the diyas in sequence
     diyaItems.forEach((d, i) => {
       setTimeout(() => d.classList.add('lit'), 120 + i * 90);
     });
 
-    // Reveal the continue button after ripple completes
     const next = document.getElementById('scene2Next');
     if (next) {
       setTimeout(() => next.classList.add('show'), 120 + diyaItems.length * 90 + 400);
     }
 
-    // Hide the "light" button
     const lightBtn = document.getElementById('lightDiyasBtn');
     if (lightBtn) {
       lightBtn.style.transition = 'opacity 0.4s, transform 0.4s';
@@ -173,7 +169,6 @@
     const field = document.getElementById('lanternField');
     if (!field) return;
     field.innerHTML = '';
-    // spread lanterns along bottom, jittered
     const n = LANTERNS.length;
     for (let i = 0; i < n; i++) {
       const btn = document.createElement('button');
@@ -263,7 +258,6 @@
     }
   }
 
-  // --------- Cracker sound (optional file) ---------
   const crackerAudio = new Audio('assets/crackers.mp3');
   crackerAudio.preload = 'auto';
   crackerAudio.volume = 0.5;
@@ -276,7 +270,7 @@
       const clone = crackerAudio.cloneNode();
       clone.volume = crackerAudio.volume;
       clone.play().catch(() => {});
-    } catch (err) { /* silent */ }
+    } catch (err) {}
   }
 
   function lightCracker(el) {
@@ -284,7 +278,6 @@
     el.classList.add('lit');
     playCrackerSound();
 
-    // Launch + burst
     const rect = el.getBoundingClientRect();
     const startX = rect.left + rect.width / 2;
     const startY = rect.top;
@@ -292,11 +285,10 @@
 
     crackerCount++;
     if (crackerCountEl) {
-      crackerCountEl.textContent = crackerCount + (crackerCount === 1 ? ' cracker lit' : ' crackers lit');
+      crackerCountEl.textContent = crackerCount + (crackerCount === 1 ? ' cracker lit 💥' : ' crackers lit 💥');
     }
   }
 
-  // --------- Firework burst (page-level overlay) ---------
   function burstFirework(x, y) {
     const container = document.body;
     const hue = Math.floor(rand(0, 360));
@@ -386,7 +378,6 @@
     launch();
   }
 
-  // Rangoli petals (built once)
   function buildRangoli() {
     const g = document.getElementById('rangoliPetals');
     if (!g) return;
@@ -402,6 +393,40 @@
       path.setAttribute('opacity', '0.7');
       g.appendChild(path);
     }
+  }
+
+  /* ================= SCENE 6 — TYPEWRITER LETTER ================= */
+  let typingStarted = false;
+
+  function startTypewriter() {
+    if (typingStarted) return;
+    typingStarted = true;
+
+    const target = document.getElementById('typewriterText');
+    const sign = document.querySelector('.letter-sign');
+    if (!target) return;
+
+    const message = 
+`Log kehte hain Diwali roshni ka tyohar hai, par mere liye asli roshni aapki ek muskurahat hai. ✨
+
+Aur sach kahun toh... Aaj aap jab ready honge toh Diwali ki saari lights aapke samne feeki pad jayengi. 🪔❤️
+
+Bas yahi dua hai ki aapki zindagi mein hamesha aisi hi chamak bani rahe, aur har khushi bina maange aapke kadam chume. Happy Diwali once again, Devi Ji! 🥰`;
+
+    let i = 0;
+    const speed = 45;
+
+    function typeChar() {
+      if (i < message.length) {
+        target.textContent += message.charAt(i);
+        i++;
+        setTimeout(typeChar, speed);
+      } else {
+        if (sign) sign.classList.add('show');
+      }
+    }
+
+    setTimeout(typeChar, 600);
   }
 
   /* ================= MUSIC ================= */
@@ -431,40 +456,6 @@
     };
     document.addEventListener('pointerdown', gesture, { once: true });
     document.addEventListener('keydown', gesture, { once: true });
-  }
-  /* ================= SCENE 6 — TYPEWRITER LETTER ================= */
-  let typingStarted = false;
-
-  function startTypewriter() {
-    if (typingStarted) return;
-    typingStarted = true;
-
-    const target = document.getElementById('typewriterText');
-    const sign = document.querySelector('.letter-sign');
-    if (!target) return;
-
-    const message = 
-`Log kehte hain Diwali roshni ka tyohar hai, par mere liye asli roshni aapki ek muskurahat hai. ✨
-
-Aur sach kahun toh... Aaj aap jab ready honge toh Diwali ki saari lights aapke samne feeki pad jayengi. 🪔❤️
-
-Bas yahi dua hai ki aapki zindagi mein hamesha aisi hi chamak bani rahe, aur har khushi bina maange aapke kadam chume. Happy Diwali once again, Devi Ji! 🥰`;
-
-    let i = 0;
-    const speed = 45; // Typing speed (kam number = fast typing)
-
-    function typeChar() {
-      if (i < message.length) {
-        target.textContent += message.charAt(i);
-        i++;
-        setTimeout(typeChar, speed);
-      } else {
-        // Typing khatam hone ke baad signature dikhao
-        if (sign) sign.classList.add('show');
-      }
-    }
-
-    setTimeout(typeChar, 600); // Scene transition ke 0.6s baad typing shuru hogi
   }
 
   /* ================= INIT ================= */
