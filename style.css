@@ -665,3 +665,85 @@ body {
     height: 45vh; 
   }
 }
+/* ================== SCENE 6 — CUSTOM LETTER ================== */
+.scene-6 {
+  background:
+    radial-gradient(ellipse at 50% 100%, #2a1030 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 30%, #0a1230 0%, transparent 70%);
+}
+
+.letter-card {
+  position: relative;
+  z-index: 4;
+  max-width: 580px;
+  width: 92%;
+  padding: 36px 28px;
+  border: 1px solid rgba(245, 214, 138, 0.4);
+  background: linear-gradient(160deg, rgba(20, 27, 61, 0.85), rgba(10, 15, 36, 0.92));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 4px;
+  box-shadow: 0 0 50px rgba(245, 214, 138, 0.15), inset 0 0 20px rgba(245, 214, 138, 0.05);
+  text-align: center;
+}
+
+.letter-title {
+  font-family: var(--script);
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  color: var(--gold-glow);
+  text-shadow: 0 0 30px rgba(255, 216, 138, 0.4);
+  margin-bottom: 20px;
+  line-height: 1.1;
+}
+
+.letter-body {
+  font-family: var(--serif);
+  font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  line-height: 1.8;
+  color: var(--ivory);
+  text-align: left;
+  min-height: 180px;
+  white-space: pre-line;
+}
+
+#typewriterText {
+  display: inline;
+}
+
+.cursor {
+  display: inline-block;
+  color: var(--gold-glow);
+  font-weight: bold;
+  animation: blinkCursor 0.8s infinite;
+}
+
+@keyframes blinkCursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.letter-sign {
+  margin-top: 24px;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--brass-lt);
+  text-align: right;
+  opacity: 0;
+  transition: opacity 1s var(--ease);
+}
+
+.letter-sign.show {
+  opacity: 1;
+}
+
+@media (max-width: 640px) {
+  .letter-card {
+    padding: 24px 18px;
+    margin-top: 20px;
+  }
+  .letter-body {
+    font-size: 1rem;
+    min-height: 210px;
+  }
+}
